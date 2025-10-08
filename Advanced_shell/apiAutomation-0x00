@@ -3,5 +3,5 @@
 URL="https://pokeapi.co/api/v2/pokemon/pikach"
 
 trap "echo An error cccurred; exit 1" ERR
-curl -s -S $URL --fail-with-body 2> error.txt > data.json
+curl -s -S $URL --fail-with-body 2> errors.txt > data.json
 echo Request executed successfully
