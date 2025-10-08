@@ -1,0 +1,9 @@
+#! /bin/bash
+# This script extracts pokemon data with `jq`,
+# transforms with `sed` and processes and prints
+# the data with awk
+
+jq -r ".name, .types[].type.name, .height, .weight" new.json | \
+sed -e 's/^\(.\)/\U\1/' | \
+awk 'NR==1{n=$0} NR==2{t=$0} NR==3{h=$0} NR==4{w=$0}
+END {print n" is of type " t ", weighs " w "kg, and is " h "m tall" }'
