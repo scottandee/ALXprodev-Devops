@@ -11,8 +11,8 @@ height=$(jq -r ".height" $path_to_file)
 weight=$(jq -r ".weight" $path_to_file)
 
 ## Format height and weight
-formatted_height=$(echo $height | awk '{print $1/10 "m"}')
-formatted_weight=$(echo $weight | awk '{print $1/10 "kg"}')
+formatted_height=$(echo $height | awk '{print $1/10}')
+formatted_weight=$(echo $weight | awk '{print $1/10}')
 
 ## output result
-echo "$name is of type $type, weighs $formatted_weight, and is $formatted_height tall"
+echo "${name} is of type ${type}, weighs ${formatted_weight}kg, and is ${formatted_height}m tall"
