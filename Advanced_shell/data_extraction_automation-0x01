@@ -1,9 +1,18 @@
 #! /bin/bash
-# This script extracts pokemon data with `jq`,
-# transforms with `sed` and processes and prints
-# the data with awk
+# This script does data extraction and processing
+# with `jq`, `sed` and `awk`
 
-jq -r ".name, .types[].type.name, .height, .weight" new.json | \
-sed -e 's/^\(.\)/\U\1/' | \
-awk 'NR==1{n=$0} NR==2{t=$0} NR==3{h=$0} NR==4{w=$0}
-END {print n" is of type " t ", weighs " w "kg, and is " h "m tall" }'
+path_to_file=data.json
+
+# Extract data from json file
+name=$(jq -r ".name" $path_to_file | sed 's/.*/\u&/')
+type=$(jq -r ".types[].type.name" $path_to_file | sed 's/.*/\u&/')
+height=$(jq -r ".height" $path_to_file)
+weight=$(jq -r ".weight" $path_to_file)
+
+## Format height and weight
+formatted_height=$(echo $height | awk '{print $1/10 "m"}')
+formatted_weight=$(echo $weight | awk '{print $1/10 "kg"}')
+
+## output result
+echo "$name is of type $type, weighs $formatted_weight, and is $formatted_height tall"
