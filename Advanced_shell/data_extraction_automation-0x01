@@ -15,4 +15,4 @@ formatted_height=$(echo $height | awk '{print $1/10}')
 formatted_weight=$(echo $weight | awk '{print $1/10}')
 
 ## output result
-echo "${name} is of type ${type}, weighs ${formatted_weight}kg, and is ${formatted_height}m tall"
+echo "$name is of type $type, weighs ${formatted_weight}kg, and is ${formatted_height}m tall"
