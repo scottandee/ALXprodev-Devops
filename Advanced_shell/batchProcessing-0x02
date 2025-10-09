@@ -12,8 +12,30 @@ do
 
     file_name=pokemon_data/$pokemon.json
     url=https://pokeapi.co/api/v2/pokemon/$pokemon
-    curl -s -S $url --fail-with-body 2> errors.txt > $file_name
+    
+    max_retries=3
+    attempt=1
+    success=false
 
-    echo "Saved to $file_name"
-    sleep 5
+    while (( $attempt <= $max_retries + 1)); do
+        if curl -s -S $url -f 2>> errors.txt > $file_name; then
+            success=true
+            break
+        else
+            if (($attempt <= $max_retries)); then
+                echo "Retrying in 3s...($attempt)"
+                sleep 3
+            fi
+            ((attempt++))
+            continue
+        fi
+    done
+
+    if $success; then
+        echo "Saved to $file_name"
+    else
+        echo "Failed to fetch $pokemon" 
+    fi
+
+    sleep 3
 done
