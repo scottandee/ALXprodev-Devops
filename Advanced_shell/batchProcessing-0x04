@@ -1,0 +1,20 @@
+#! /bin/bash
+# This script fetches the data for a list of
+# pokemons in batches.
+
+trap "echo An error cccurred; exit 1" ERR
+pokemon_list=('bulbasaur' 'ivysaur' 'venusaur' 'charmander' 'charmeleon')
+pokemon_out_dir=pokemon_data
+mkdir -p $pokemon_out_dir
+
+for pokemon in "${pokemon_list[@]}"
+do
+    echo "Fetching data for $pokemon..."
+
+    file_name=$pokemon_out_dir$pokemon.json
+    url=https://pokeapi.co/api/v2/pokemon/$pokemon
+    curl -s -S $url --fail-with-body 2> errors.txt > $file_name &
+done
+
+wait
+echo "Saved results to $pokemon_out_dir/"
